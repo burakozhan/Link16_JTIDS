@@ -1,17 +1,18 @@
-# Link16 通信系统
+# Link16 Communication System
 
-## 项目概述
+## Project Overview
 
-Link16通信系统是一个完整的战术数据链通信系统实现，包括消息处理、编码加密、物理层处理和仿真功能。本系统支持Link16标准的消息格式，并提供了从应用层到物理层的完整实现。系统采用跨平台的CMake构建系统，可在Windows、Linux和macOS等多种操作系统上运行。
+The Link16 communication system is a complete tactical datalink communication system implementation, including message processing, encoding and encryption, physical layer processing, and simulation capabilities. This system supports the Link16 standard message format and provides a complete implementation from the application layer to the physical layer. The system uses the cross-platform CMake build system and can run on various operating systems such as Windows, Linux, and macOS.
 
-## 功能特点
+## Features
 
-- **消息处理**：支持Link16标准的J系列消息格式，包括报头字、初始字、扩展字和继续字
-- **编码加密**：实现了Reed-Solomon编码、AES加密、奇偶校验和交织等功能
-- **物理层处理**：支持USRP硬件接口、多种调制方式（BPSK、QPSK）、跳频和同步
-- **仿真功能**：提供端到端的无线链路仿真，包括AWGN和瑞利衰落信道模型，以及误码率和吞吐量计算
+- **Message processing**: Supports the J-series message format of the Link16 standard, including header words, start words, extension words, and continuation words.
+- **Encoding and Encryption**: Implements Reed-Solomon encoding, AES encryption, parity checking, and interleaving functions.
+- **Physical layer processing**: Supports USRP hardware interface, multiple modulation methods (BPSK, QPSK), frequency hopping, and synchronization.
+- **Simulation Functionality**: Provides end-to-end wireless link simulation, including AWGN and Rayleigh fading channel models, as well as bit error rate and throughput calculations.
 
-## 项目结构
+
+## Project Structure
 
 ```
 link16/                                # 项目根目录
@@ -134,21 +135,21 @@ link16/                                # 项目根目录
 │   │           ├── BlockInterleaver.h
 │   │           └── BlockInterleaver.cpp
 │   │
-│   ├── physical/                      # 物理层
-│   │   ├── hardware/                  # 硬件接口
-│   │   │   ├── usrp/                  # USRP硬件
-│   │   │   │   ├── USRPInterface.h    # USRP基础接口
+│   ├── physical/                      # Physical layer
+│   │   ├── hardware/                  # Hardware interface
+│   │   │   ├── usrp/                  # USRP hardware
+│   │   │   │   ├── USRPInterface.h    # USRP Core Interface
 │   │   │   │   ├── USRPInterface.cpp
-│   │   │   │   ├── USRPTransmitter.h  # USRP发送器
+│   │   │   │   ├── USRPTransmitter.h  # USRP Transmitter
 │   │   │   │   ├── USRPTransmitter.cpp
-│   │   │   │   ├── USRPReceiver.h     # USRP接收器
+│   │   │   │   ├── USRPReceiver.h     # USRP Receiver
 │   │   │   │   └── USRPReceiver.cpp
 │   │   │   │
-│   │   │   └── sdr/                   # 其他SDR硬件(预留)
+│   │   │   └── sdr/                   # Other SDR hardware (reserved)
 │   │   │       ├── SDRInterface.h
 │   │   │       └── SDRInterface.cpp
 │   │   │
-│   │   ├── modulation/                # 调制解调
+│   │   ├── modulation/                # modulation and demodulation
 │   │   │   ├── digital/               # 数字调制
 │   │   │   │   ├── PSK/               # 相移键控
 │   │   │   │   │   ├── BPSKModulator.h
@@ -294,17 +295,17 @@ link16/                                # 项目根目录
 └── LICENSE                            # 许可证
 ```
 
-## 使用方法
+## How to use
 
-### 编译项目
+### Compilation of Project
 
 #### Windows
 
 ```batch
-# 使用提供的构建脚本
+# Use the provided build script
 build.bat
 
-# 或者手动构建
+# Or build manually
 mkdir build
 cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
@@ -314,17 +315,17 @@ cmake --build . --config Release
 #### Linux/macOS
 
 ```bash
-# 使用提供的构建脚本
+# Use the provided build script
 ./build.sh
 
-# 或者手动构建
+# Or build manually
 mkdir build
 cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 cmake --build .
 ```
 
-### 运行应用
+### Run the application
 
 ```bash
 # Windows
@@ -334,61 +335,64 @@ build\bin\Release\link16_app.exe
 build/bin/link16_app
 ```
 
-### 生成文档
+### Generate documentation
 
 ```bash
-# 在build目录中
+# In the build directory
 cmake --build . --target docs
 ```
 
-### 运行测试
+### Run tests
 
 ```bash
-# 在build目录中
+# In the build directory
 ctest -C Release
 ```
 
-## 开发指南
+## Development Guide
 
-### 项目架构
+### Project Architecture
 
-本项目采用分层架构，从上到下依次为：
-- **应用层**：用户接口和应用逻辑
-- **API层**：提供公共API，连接用户和内部实现
-- **协议层**：处理Link16消息格式和协议
-- **编码层**：实现各种编码、加密和交织算法
-- **物理层**：处理调制、跳频、同步和硬件接口
-- **仿真层**：提供端到端的无线链路仿真
+This project adopts a layered architecture, from top to bottom as follows:
 
-### 添加新的编码方法
+- **Application layer**: User interface and application logic
+- **API Layer**: Provides public APIs, connecting users and internal implementations.
+- **Protocol layer**: Handles Link16 message format and protocol
+- **Encoding layer**: Implements various encoding, encryption, and interleaving algorithms.
+- **Physical layer**: handles modulation, frequency hopping, synchronization, and hardware interfaces.
+- **Simulation layer**: Provides end-to-end wireless link simulation
 
-1. 在`src/coding/error_correction/`目录下创建新的子目录
-2. 实现相应的编码器接口
-3. 在`src/api/CodingAPI.cpp`中添加对新编码器的支持
-4. 更新公共API接口`include/link16/api/CodingAPI.h`
+### Add new encoding methods
 
-### 添加新的调制方式
+1. src/coding/error_correction/Create new subdirectories under the current directory .
+2. Implement the corresponding encoder interface
+3. src/api/CodingAPI.cppAdd support for the new encoder.
+4. Update public API interfaceinclude/link16/api/CodingAPI.h
 
-1. 在`src/physical/modulation/`目录下创建新的子目录
-2. 实现相应的调制器接口
-3. 在`src/api/PhysicalAPI.cpp`中添加对新调制器的支持
-4. 更新公共API接口`include/link16/api/PhysicalAPI.h`
+### Add new modulation methods
 
-### 添加新的信道模型
+1. `src/physical/modulation/` Create new subdirectories under the current directory.
+2. Implement the corresponding modulator interface
+3. Add `src/api/PhysicalAPI.cpp support for new modulators
+4. Update public API interface `include/link16/api/PhysicalAPI.h`
 
-1. 在`src/simulation/channel/`目录下创建新的子目录
-2. 实现相应的信道模型接口
-3. 在`src/simulation/engine/SimulationEngine.cpp`中添加对新信道模型的支持
-4. 在`src/api/SimulationAPI.cpp`中添加对新信道模型的支持
-5. 更新公共API接口`include/link16/api/SimulationAPI.h`
+### Add a new channel model
 
-### 跨平台开发注意事项
+1. `src/simulation/channel/` Create new subdirectories under the current directory.
+2. Implement the corresponding channel model interface.
+3. `src/simulation/engine/SimulationEngine.cpp` Add support for the new channel model.
+4. `src/api/SimulationAPI.cpp` Add support for the new channel model.
+5. Update public API interface `include/link16/api/SimulationAPI.h`
 
-1. 使用`src/core/utils/platform.h`中的平台检测宏和工具函数
-2. 避免使用平台特定的API和路径分隔符
-3. 使用标准C++17特性，避免使用编译器特定的扩展
-4. 使用CMake的条件编译功能处理平台差异
+### Cross-platform development considerations
 
-## 许可证
+1. `src/core/utils/platform.h` Platform detection macros and utility functions in use
+2. Avoid using platform-specific APIs and path separators.
+3. Use standard C++17 features and avoid using compiler-specific extensions.
+4. Handling platform differences using CMake's conditional compilation features
 
-[许可证信息]
+## License
+
+[License Information]
+
+(The original project does not have any licence information attached.)
